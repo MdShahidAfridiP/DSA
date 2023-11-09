@@ -63,6 +63,8 @@ class LinkedList:
             if currentnode.value == value:
                 if prevnode:
                     prevnode.next = currentnode.next
+                    if currentnode.next == None:
+                        self.tail = prevnode
                     return
                 else:
                     self.head = self.head.next
