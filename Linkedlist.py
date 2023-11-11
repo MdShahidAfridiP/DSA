@@ -73,11 +73,30 @@ class LinkedList:
             currentnode = currentnode.next
 
 
+    def reverselistR(self, curr, prev):
+        if curr.next == None:
+            curr.next = prev
+            self.head = curr
+            return
+        next = curr.next
+        curr.next = prev
+        return self.reverselist(next, curr)
+    
+    def reverselistL(self):
+        currentnode = self.head
+        prev = None
+        while (currentnode!=None):
+            next = currentnode.next
+            currentnode.next = prev
+            prev = currentnode
+            currentnode = next
+        self.head = prev
+
 
 obj = LinkedList()
 n=1
 while(n!=0):
-    print("1.prepend 2.append 3.insert 4.lookup 5.Delete 6.Exit")
+    print("1.prepend 2.append 3.insert 4.lookup 5.Delete 6.reverselistRecursive 7.reverselistLinear 8.Exit")
     n = int(input("enter the option : "))
     if n==1:
         obj.prepend(int(input("enter the value : ")))
@@ -89,5 +108,9 @@ while(n!=0):
         obj.lookup(int(input("enter the value : ")))
     elif n==5:
         obj.delete(int(input("enter the value : ")))
+    elif n==6:
+        obj.reverselistR(obj.head, None)
+    elif n==7:
+        obj.reverselistL()
     else:
         n=0
