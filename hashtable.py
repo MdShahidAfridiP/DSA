@@ -1,76 +1,80 @@
 class Node:
     def __init__(self, value) -> None:
-        self.value = value
+        self.value = value 
         self.next = None
-        self.key = None
-
-class HashTable:
-    def __init__(self, size) -> None:
-        self.capacity = size
-        self.table = {}
-        self.size = 0
     
-    def _hash(self, value) -> int:
-        return hash(value) % self.capacity
+class HashTable:
+    def __init__(self) -> None:
+        self.size = 0
+        self.table = {}
+    
+    def _hash(self, value):
+        return hash(value) % 7
     
     def insert(self, value):
         hashkey = self._hash(value)
         new_node = Node(value)
         if not self.table.get(hashkey):
             self.table[hashkey] = new_node
-            self.size+=1
         else:
             currentnode = self.table[hashkey]
             while(currentnode):
                 if currentnode.value == value:
-                    print("this key already exists!")
+                    print("value found!")
                     return
                 currentnode = currentnode.next
             new_node.next = self.table[hashkey]
             self.table[hashkey] = new_node
-            self.size+=1
+        self.size += 1
     
     def delete(self, value):
         hashkey = self._hash(value)
         if self.table.get(hashkey):
-            currentnode = self.table[hashkey]
             previousnode = 0
-            while currentnode:
+            currentnode = self.table[hashkey]
+            while(currentnode):
                 if currentnode.value == value:
                     if previousnode:
                         previousnode.next = currentnode.next
                     else:
                         self.table[hashkey] = currentnode.next
-                    self.size-=1
+                    self.size -= 1
                     return
                 previousnode = currentnode
                 currentnode = currentnode.next
-
-
-    def display(self, key):
-        hashkey = self._hash(key)
+    
+    def search(self, value):
+        hashkey = self._hash(value)
         if self.table.get(hashkey):
             currentnode = self.table[hashkey]
             while currentnode:
-                if currentnode.value == key:
-                    print("found the key!")
-                    print("the value is : ", currentnode.value)
-                    return
+                if currentnode.value == value:
+                    print("value found! : ", currentnode.value)
+                else:
+                    print("iterating.. : ", currentnode.value)
                 currentnode = currentnode.next
     
-obj = HashTable(7)
+    def display(self):
+        for k,v in self.table.items():
+            print(k, end=" : ")
+            currentnode = v
+            while(currentnode):
+                print(currentnode.value, end=", ")
+                currentnode = currentnode.next
+            print()
+
+obj = HashTable()
 n=1
 while(n!=0):
-    print("1.Insert 2.Delete 3.Display 4.Exit")
+    print("1.Insert 2.Delete 3.Search 4.Display 5.Exit")
     n = int(input("enter the option : "))
     if n==1:
         obj.insert(int(input("enter the value : ")))
     elif n==2:
         obj.delete(int(input("enter the value : ")))
     elif n==3:
-        obj.display(int(input("enter the value : ")))
+        obj.search(int(input("enter the value : ")))
+    elif n==4:
+        obj.display()
     else:
         n=0
-
-
-
