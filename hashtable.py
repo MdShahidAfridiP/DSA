@@ -26,9 +26,9 @@ class HashTable:
                     print("this key already exists!")
                     return
                 currentnode = currentnode.next
-                new_node.next = self.table[hashkey]
-                self.table[hashkey] = new_node
-                self.size+=1
+            new_node.next = self.table[hashkey]
+            self.table[hashkey] = new_node
+            self.size+=1
     
     def delete(self, value):
         hashkey = self._hash(value)
@@ -41,9 +41,10 @@ class HashTable:
                         previousnode.next = currentnode.next
                     else:
                         self.table[hashkey] = currentnode.next
-                    size-=1
-                    previousnode = currentnode
-                    currentnode = currentnode.next
+                    self.size-=1
+                    return
+                previousnode = currentnode
+                currentnode = currentnode.next
 
 
     def display(self, key):
