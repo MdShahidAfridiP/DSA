@@ -1,89 +1,90 @@
 class Node:
     def __init__(self, value) -> None:
         self.value = value
-        self.next = None
-
-class LinkedList:
+        self.left = None
+        self.right = None
+    
+class BST:
     def __init__(self) -> None:
-        self.head = None
+        self.root = None
     
-    def append(self, value):
+    def insert(self, value):
         new_node = Node(value)
-        if self.head == None:
-            self.head = new_node
+        if self.root == None:
+            self.root = new_node
         else:
-            currentnode = self.head
-            while currentnode.next:
-                currentnode = currentnode.next
-            currentnode.next = new_node
+            current = self.root
+            while(current):
+                if value<current.value:
+                    if current.left == None:
+                        current.left = new_node
+                        return
+                    current = current.left
+                elif value>current.value:
+                    if current.right == None:
+                        current.right = new_node
+                        return
+                    current = current.right
     
-    def prepend(self, value):
-        new_node = Node(value)
-        if self.head:
-            new_node.next = self.head
-            self.head = new_node
+    def BFS(self):
+        queue = [self.root]
+        values = []
+        while queue:
+            node = queue.pop(0)
+            values.append(node.value)
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
+        print(values)
+    
+    def BFSR(self, queue, lists):
+        if queue == []:
+            return lists
         else:
-            self.head = new_node
+            node = queue.pop(0)
+            lists.append(node.value)
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
+            return self.BFSR(queue, lists)
+        
+    def DFSInorder(self, current):
+        if current:
+            self.DFSInorder(current.left)
+            print(current.value, end=" ")
+            self.DFSInorder(current.right)
     
-    def lookup(self, value):
-        currentnode = self.head
-        while currentnode:
-            if currentnode.value == value:
-                print("value found : ", value)
-                return
-            currentnode = currentnode.next
+    def DFSpreporder(self, current):
+        if current:
+            print(current.value, end=" ")
+            self.DFSpreporder(current.left)
+            self.DFSpreporder(current.right)
     
-    def insert(self, pos, value):
-        new_node = Node(value)
-        currentnode = self.head
-        prevnode = 0
-        for i in range(pos-1):
-            prevnode = currentnode
-            currentnode = currentnode.next
-        if prevnode:
-            prevnode.next = new_node
-            new_node.next = currentnode
-        else:
-            self.prepend(value)
+    def DFSpostorder(self, current):
+        if current:
+            self.DFSpostorder(current.left)
+            self.DFSpostorder(current.right)
+            print(current.value, end=" ")
 
-    def iterate(self):
-        currentnode = self.head
-        while currentnode:
-            print(currentnode.value, end=", ")
-            currentnode = currentnode.next
-
-    def delete(self, value):
-        currentnode = self.head
-        prevnode = 0
-        while currentnode:
-            if currentnode.value == value:
-                if prevnode:
-                    prevnode.next = currentnode.next
-                    return
-                elif not prevnode and self.head.next:
-                    self.head = self.head.next
-                else:
-                    self.head = None
-            prevnode = currentnode
-            currentnode = currentnode.next
-
-obj = LinkedList()
 n=1
-while(n!=0):
-    print("1.prepend 2.append 3.insert 4.lookup 5.Delete 6.iterate 8.Exit")
-    n = int(input("enter the option : "))
+obj = BST()
+while(n):
+    n = int(input("1.Insert 2.BFS 3.BFSR 4.inorder 5.preorder 6.postorder : "))
     if n==1:
-        obj.prepend(int(input("enter the value : ")))
+        obj.insert(int(input("enter the value : ")))
     elif n==2:
-        obj.append(int(input("enter the value : ")))
+        obj.BFS()
     elif n==3:
-        obj.insert(int(input("enter the index : ")), int(input("enter the value : ")))
+        print(obj.BFSR([obj.root], []))
     elif n==4:
-        obj.lookup(int(input("enter the value : ")))
+        obj.DFSInorder(obj.root)
     elif n==5:
-        obj.delete(int(input("enter the value : ")))
+        obj.DFSpreporder(obj.root)
     elif n==6:
-        obj.iterate()
+        obj.DFSpostorder(obj.root)
     else:
         n=0
 
+    

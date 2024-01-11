@@ -87,16 +87,16 @@ class BST:
                 return root.left
             else:
                 succ=self.getsucc(root.right)
-                root.data = succ
+                root.value = succ
                 root.right = self.remove(root.right, succ)
         return root
 
         #User function Template for pythone
-    def getsucc(root):
+    def getsucc(self, root):
         curr=root
         while(curr.left!=None):
             curr=curr.left
-        return curr.data
+        return curr.value
 
 
 n=1
