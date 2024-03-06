@@ -1,38 +1,11 @@
 from typing import List
 
-def getLongestSubarray(a: [int], k: int) -> int:
-    n = len(a) # size of the array.
+def twoSum( nums: List[int], target: int) -> List[int]:
+        dict={}
+        for i,n in enumerate(nums):
+            if n in dict:
+                return dict[n],i
+            else:
+                dict[target-n]=i
 
-    preSumMap = {}
-    Sum = 0
-    maxLen = 0
-    for i in range(n):
-        # calculate the prefix sum till index i:
-        Sum += a[i]
-
-        # if the sum = k, update the maxLen:
-        if Sum == k:
-            maxLen = max(maxLen, i + 1)
-
-        # calculate the sum of remaining part i.e. x-k:
-        rem = Sum - k
-
-        # Calculate the length and update maxLen:
-        if rem in preSumMap:
-            length = i - preSumMap[rem]
-            maxLen = max(maxLen, length)
-
-        # Finally, update the map checking the conditions:
-        if Sum not in preSumMap:
-            preSumMap[Sum] = i
-
-    return maxLen
-
-if __name__ == "__main__":
-	a = [2, 3, 5, 1, 9, 1, 1, 1, 7]
-	k = 10
-
-	length = getLongestSubarray(a, k)
-	print(f"The length of the longest subarray is: {length}")
-
-
+twoSum([2,7,11,15], 9)
